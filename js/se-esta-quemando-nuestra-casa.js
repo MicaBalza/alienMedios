@@ -7,11 +7,11 @@ var fuente = new FontFace(
 document.fonts.add(fuente);
 fuente.load().then(dibujar);
 
-var inicio = false;
+var inicio = true;
 var instrucciones = false;
 var intervalo;
 var volar;
-var colorBoton = "#f0c337";
+var colorBoton = "#FFF";
 var posicionFondo = 0;
 
 var puntos = 0;
@@ -32,8 +32,8 @@ var imgFondo;
 // var audioAmbiente;
 // var audioFuego;
 
-var personajeUno = new Personaje(100, 200, 146, 107);
-var fuegoUno = new Elemento(820, 300, "fuego", 68, 68);
+var personajeUno = new Personaje(100, 200, 106, 107);
+var fuegoUno = new Elemento(820, 300, "fuego", 100, 100);
 var gotaUno = new Elemento(1000, 200, "gota", 68, 68);
 var gusanoUno = new Elemento(820, 300, "gusano", 68, 68);
 var troncoUno = new Elemento(1000, 200, "tronco", 68, 68);
@@ -48,13 +48,7 @@ function dibujar() {
   canvas.style.backgroundSize = "cover";
   canvas.style.backgroundPosition = "0px 0px";
   ctx = canvas.getContext("2d");
-}
-
-function instruye() {
-  inicio = true;
-  canvas.style.backgroundImage = "url(img/instrucciones.png)";
-  canvas.style.backgroundSize = "cover";
-  dibujarTextoInstrucciones();
+  dibujarJugar();
 }
 
 function juego() {
@@ -125,20 +119,20 @@ function juego() {
     borrar();
     if (vidas == 0 || puntos == -1000) {
       ctx.font = "80px Orbitron-Bold";
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText("PERDISTE", 300, 300);
-      ctx.fillStyle = colorBoton;
+      ctx.fillStyle = 'black';
+      ctx.fillText("PERDISTE", 170, 200);
+      ctx.fillStyle = '#00FFC9';
       ctx.font = "30px Orbitron-Bold";
-      ctx.fillText("REINICIAR", 350, 350);
+      ctx.fillText("REINICIAR", 320, 250);
 
       inicio = false;
     } else if (puntos == 1000) {
       ctx.font = "80px Orbitron-Bold";
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText("GANASTE!", 300, 300);
-      ctx.fillStyle = colorBoton;
+      ctx.fillStyle = '#00FFC9';
+      ctx.fillText("GANASTE!", 160, 200);
       ctx.font = "30px Orbitron-Bold";
-      ctx.fillText("REINICIAR", 350, 350);
+      ctx.fillStyle = '#00FFC9';
+      ctx.fillText("CLAVE: apolo11", 280, 250);
 
       inicio = false;
     } else if (inicio == true) {
@@ -191,11 +185,11 @@ function juego() {
   }, 1000 / 25);
 }
 
-function dibujarTextoInstrucciones() {
+function dibujarJugar() {
   borrar();
   ctx.font = "40px Orbitron-Bold";
   ctx.fillStyle = colorBoton;
-  ctx.fillText("¡Jugar!", 330, 300);
+  ctx.fillText("¡ Jugar !", 320, 300);
 }
 
 function dibujaTexto() {
@@ -340,15 +334,14 @@ document.addEventListener("keydown", function (e) {
 document.addEventListener("click", function (e) {
   //Acá evaluo en función de vidas y de la variable inicio, si estoy al principio o al final del juego
   if (vidas == 0 || puntos == 1000 || puntos == -1000) {
-    if (e.x > 200 && e.x < 500 && e.y > 300 && e.y < 380) {
+    if (e.x > 350 && e.x < 500 && e.y > 200 && e.y < 300) {
       vidas = 3;
       puntos = 0;
       // audioFuego.volume = 0;
+      inicio = true;
     }
-  } else if (inicio == false) {
-    instruye();
   } else if (inicio == true) {
-    if (e.x > 690 && e.x < 760 && e.y > 400 && e.y < 450) {
+    if (e.x > 300 && e.x < 550 && e.y > 250 && e.y < 350) {
       juego();
     }
   }
@@ -356,22 +349,22 @@ document.addEventListener("click", function (e) {
 document.addEventListener("mousemove", function (e) {
   //si está al final o al principio del juego:
   if (vidas == 0 || puntos == 1000 || puntos == -1000) {
-    if (e.x > 390 && e.x < 500 && e.y > 330 && e.y < 380) {
+    if (e.x > 350 && e.x < 500 && e.y > 200 && e.y < 300) {
       canvas.style.cursor = "pointer";
-      colorBoton = "#ffffff";
+      colorBoton = "#FFF";
     } else {
       canvas.style.cursor = "";
       colorBoton = "#f0c337";
     }
   } else if (inicio == true && instrucciones == false) {
-    if (e.x > 690 && e.x < 800 && e.y > 400 && e.y < 450) {
+    if (e.x > 300 && e.x < 550 && e.y > 250 && e.y < 350) {
       canvas.style.cursor = "pointer";
-      colorBoton = "#ffffff";
-      dibujarTextoInstrucciones();
+      colorBoton = "#00FFC9";
+      dibujarJugar();
     } else {
       canvas.style.cursor = "";
-      colorBoton = "#f0c337";
-      dibujarTextoInstrucciones();
+      colorBoton = "#FFF";
+      dibujarJugar();
     }
   } else if (inicio == false) {
     if (
