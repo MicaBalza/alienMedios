@@ -27,12 +27,10 @@ var imgCorazonDos;
 var imgCorazonTres;
 var imgFondo;
 
-var aveElegida;
-
-var audioPerdida;
-var audioTraga;
-var audioAmbiente;
-var audioFuego;
+// var audioPerdida;
+// var audioTraga;
+// var audioAmbiente;
+// var audioFuego;
 
 var personajeUno = new Personaje(100, 200, 146, 107);
 var fuegoUno = new Elemento(820, 300, "fuego", 68, 68);
@@ -67,7 +65,7 @@ function juego() {
   canvas.style.backgroundSize = "cover";
 
   imgPersonaje1 = new Image();
-  imgPersonaje1.src = `img/${aveElegida}1.png`;
+  imgPersonaje1.src = `img/personaje.png`;
   imgPersonaje1.onload = function () {
     personajeUno.dibujaPersonaje();
   };
@@ -114,14 +112,14 @@ function juego() {
     corazonTres.dibujaCorazon(imgCorazonTres);
   };
 
-  audioPerdida = new Audio();
+  /* audioPerdida = new Audio();
   audioPerdida.src = "audios/pierde.mp3";
   audioTraga = new Audio();
   audioTraga.src = "audios/traga.mp3";
   audioAmbiente = new Audio();
   audioAmbiente.src = "audios/ambiente.mp3";
   audioFuego = new Audio();
-  audioFuego.src = "audios/fuego.mp3";
+  audioFuego.src = "audios/fuego.mp3"; */
 
   intervalo = setInterval(function () {
     borrar();
@@ -161,21 +159,21 @@ function juego() {
         imgCorazonUno.src = "img/corazonLleno.png";
         canvas.style.backgroundImage = "url(img/fondo1.png)";
         canvas.style.backgroundSize = "cover";
-        audioFuego.volume = 0;
+        // audioFuego.volume = 0;
       } else if (vidas == 2) {
         imgCorazonTres.src = "img/corazonVacio.png";
         imgCorazonDos.src = "img/corazonLleno.png";
         imgCorazonUno.src = "img/corazonLleno.png";
         canvas.style.backgroundImage = "url(img/fondo2.png)";
         canvas.style.backgroundSize = "cover";
-        audioFuego.volume = 0.2;
+        // audioFuego.volume = 0.2;
       } else if (vidas == 1) {
         imgCorazonTres.src = "img/corazonVacio.png";
         imgCorazonDos.src = "img/corazonVacio.png";
         imgCorazonUno.src = "img/corazonLleno.png";
         canvas.style.backgroundImage = "url(img/fondo3.png)";
         canvas.style.backgroundSize = "cover";
-        audioFuego.volume = 0.7;
+        // audioFuego.volume = 0.7;
       }
       personajeUno.dibujaPersonaje();
       gusanoUno.dibujaElemento(imgGusano);
@@ -185,8 +183,8 @@ function juego() {
       corazonUno.dibujaCorazon(imgCorazonUno);
       corazonDos.dibujaCorazon(imgCorazonDos);
       corazonTres.dibujaCorazon(imgCorazonTres);
-      audioAmbiente.play();
-      audioFuego.play();
+      // audioAmbiente.play();
+      // audioFuego.play();
     } else {
       dibujar();
     }
@@ -217,7 +215,7 @@ function Personaje(x, y, ancho, alto) {
     if (this.y > 10) {
       this.y -= 20;
     }
-    imgPersonaje1.src = `img/${aveElegida}1.png`;
+    imgPersonaje1.src = `img/personaje.png`;
   };
   this.abajo = function () {
     if (this.y < 340) {
@@ -225,7 +223,7 @@ function Personaje(x, y, ancho, alto) {
       this.y += 20;
       //this.x+=20; //esto si quiero q salte, e incremento y en 30
     }
-    imgPersonaje1.src = `img/${aveElegida}2.png`;
+    imgPersonaje1.src = `img/personaje2.png`;
   };
 
   this.dibujaPersonaje = function () {
@@ -285,10 +283,10 @@ function Elemento(x, y, tipo, ancho, alto) {
       if (this.tipo == "gusano") {
         //aca creo q deberiamos hacer un switch pq tenemos 4 elementos, no ?
         puntos += 100;
-        audioTraga.play();
+        // audioTraga.play();
       } else if (this.tipo == "tronco") {
         puntos -= 100;
-        audioPerdida.play();
+        // audioPerdida.play();
       }
     }
   };
@@ -310,13 +308,13 @@ function Elemento(x, y, tipo, ancho, alto) {
     ) {
       this.sortear();
       if (this.tipo == "gota" && vidas == 3) {
-        audioTraga.play();
+        // audioTraga.play();
       } else if (this.tipo == "gota" && vidas < 3) {
         vidas++;
-        audioTraga.play();
+        // audioTraga.play();
       } else if (this.tipo == "fuego") {
         vidas--;
-        audioPerdida.play();
+        // audioPerdida.play();
       }
     }
   };
@@ -345,20 +343,10 @@ document.addEventListener("click", function (e) {
     if (e.x > 200 && e.x < 500 && e.y > 300 && e.y < 380) {
       vidas = 3;
       puntos = 0;
-      audioFuego.volume = 0;
+      // audioFuego.volume = 0;
     }
   } else if (inicio == false) {
-    if (e.x > 70 && e.x < 220 && e.y > 185 && e.y < 315) {
-      //si inicio es falso estamos al principio del juego y llamo a la función juego
-      aveElegida = "carpintero";
-      instruye();
-    } else if (e.x > 310 && e.x < 510 && e.y > 185 && e.y < 315) {
-      aveElegida = "rey";
-      instruye();
-    } else if (e.x > 550 && e.x < 750 && e.y > 185 && e.y < 315) {
-      aveElegida = "loica";
-      instruye();
-    }
+    instruye();
   } else if (inicio == true) {
     if (e.x > 690 && e.x < 760 && e.y > 400 && e.y < 450) {
       juego();
